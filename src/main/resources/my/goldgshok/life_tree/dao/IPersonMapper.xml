@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="my.goldgshok.life_tree.dao.IPersonMapper">
+
+    <insert id="upsert">
+        INSERT INTO person (id, name, patronymic, surname, birthday, deathday, father_id, mother_id, about)
+        VALUES (#{id}, #{name}, #{patronymic}, #{surname}, #{birthday}, #{fatherId}, #{motherId}, #{about})
+        ON CONFLICT (id) DO UPDATE SET
+            name = EXCLUDED.name,
+            patronymic = EXCLUDED.patronymic,
+            surname = EXCLUDED.surname,
+            birthday = EXCLUDED.birthday,
+            deathday = EXCLUDED.deathday,
+            father_id = EXCLUDED.fatherId,
+            mother_id = EXCLUDED.motherId,
+            about = EXCLUDED.about,
+            update_timestamp = NOW()
+    </insert>
+
+    <select id="getById" resultType="my.goldgshok.life_tree.model.Person">
+        SELECT
+            id,
+            name,
+            patronymic,
+            surname,
+            birthday,
+            deathday,
+            father_id,
+            mother_id,
+            about
+        FROM person
+        WHERE id = #{personId}
+    </select>
+
+</mapper>
