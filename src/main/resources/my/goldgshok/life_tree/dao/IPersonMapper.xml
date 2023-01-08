@@ -6,15 +6,15 @@
 
     <insert id="upsert">
         INSERT INTO person (id, name, patronymic, surname, birthday, deathday, father_id, mother_id, about)
-        VALUES (#{id}, #{name}, #{patronymic}, #{surname}, #{birthday}, #{fatherId}, #{motherId}, #{about})
+        VALUES (#{id}, #{name}, #{patronymic}, #{surname}, #{birthday}, #{deathday}, #{fatherId}, #{motherId}, #{about})
         ON CONFLICT (id) DO UPDATE SET
             name = EXCLUDED.name,
             patronymic = EXCLUDED.patronymic,
             surname = EXCLUDED.surname,
             birthday = EXCLUDED.birthday,
             deathday = EXCLUDED.deathday,
-            father_id = EXCLUDED.fatherId,
-            mother_id = EXCLUDED.motherId,
+            father_id = EXCLUDED.father_id,
+            mother_id = EXCLUDED.mother_id,
             about = EXCLUDED.about,
             update_timestamp = NOW()
     </insert>
