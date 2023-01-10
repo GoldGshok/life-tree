@@ -31,7 +31,7 @@ public class PersonController {
     }
 
     @PostMapping(value = "get-by-id")
-    public PersonResponse update(@RequestBody RequestById request) {
+    public PersonResponse getById(@RequestBody RequestById request) {
         var personId = request.getId();
         var person = personService.getById(personId);
         return PersonConverter.convert(person);
