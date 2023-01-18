@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Добавление нового человека</title>
+</head>
+<body>
+    <h1>Создание:</h1>
+    <form action="#" th:action="@{/web/person/create}" th:object="${personDto}" method="post">
+        <p>Имя*: <input type="text" th:field="*{name}" /></p>
+        <p>Отчество*: <input type="text" th:field="*{patronymic}"/></p>
+        <p>Фамилия*: <input type="text" th:field="*{surname}"/></p>
+        <p>Прошлая фамилия: <input type="text" th:field="*{lastSurname}"/></p>
+        <p>Дата рождения*: <input type="date" th:field="*{birthday}"/></p>
+        <p>Дата смерти: <input type="date" th:field="*{deathday}"/></p>
+        <label>Пол человека*:</label>
+        <ul>
+            <li th:each="genderDto : ${T(my.goldgshok.life_tree.model.Gender).values()}">
+                <input type="radio" th:field="*{genderId}" th:value="${genderDto.getId()}"/>
+                <label th:for="${#ids.prev('genderId')}" th:text="${genderDto.getName()}">Gender</label>
+            </li>
+        </ul>
+        <p>Мама: <input type="text" th:field="*{motherId}"/></p>
+        <p>Папа: <input type="text" th:field="*{fatherId}"/></p>
+        <p>О человеке: <input type="text" th:field="*{about}"/></p>
+        <p><input type="submit" value="Создать"/> <input type="reset" value="Очистить"/></p>
+    </form>
+</body>
+</html>

@@ -18,8 +18,10 @@ public class Person {
     private String name;
     private String patronymic;
     private String surname;
+    private String lastSurname;
     private LocalDate birthday;
     private LocalDate deathday;
+    private Gender gender;
     private UUID motherId;
     private UUID fatherId;
     private String about;

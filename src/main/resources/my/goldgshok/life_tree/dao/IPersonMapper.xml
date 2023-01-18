@@ -5,14 +5,18 @@
 <mapper namespace="my.goldgshok.life_tree.dao.IPersonMapper">
 
     <insert id="upsert">
-        INSERT INTO person (id, name, patronymic, surname, birthday, deathday, father_id, mother_id, about)
-        VALUES (#{id}, #{name}, #{patronymic}, #{surname}, #{birthday}, #{deathday}, #{fatherId}, #{motherId}, #{about})
+        INSERT INTO person (id, name, patronymic, surname, last_surname, birthday, deathday, gender, father_id,
+            mother_id, about)
+        VALUES (#{id}, #{name}, #{patronymic}, #{surname}, #{lastSurname}, #{birthday}, #{deathday}, #{gender},
+            #{fatherId}, #{motherId}, #{about})
         ON CONFLICT (id) DO UPDATE SET
             name = EXCLUDED.name,
             patronymic = EXCLUDED.patronymic,
             surname = EXCLUDED.surname,
+            last_surname = EXCLUDED.last_surname,
             birthday = EXCLUDED.birthday,
             deathday = EXCLUDED.deathday,
+            gender = EXCLUDED.gender,
             father_id = EXCLUDED.father_id,
             mother_id = EXCLUDED.mother_id,
             about = EXCLUDED.about,
@@ -25,8 +29,10 @@
             name,
             patronymic,
             surname,
+            last_surname,
             birthday,
             deathday,
+            gender,
             father_id,
             mother_id,
             about

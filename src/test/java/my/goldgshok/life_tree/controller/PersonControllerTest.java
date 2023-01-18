@@ -2,9 +2,8 @@ package my.goldgshok.life_tree.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import my.goldgshok.life_tree.ControllerTest;
-import my.goldgshok.life_tree.controller.request.PersonRequest;
-import my.goldgshok.life_tree.controller.request.RequestById;
-import my.goldgshok.life_tree.controller.response.PersonResponse;
+import my.goldgshok.life_tree.controller.dto.PersonDto;
+import my.goldgshok.life_tree.controller.dto.RequestById;
 import my.goldgshok.life_tree.model.Person;
 import my.goldgshok.life_tree.service.PersonService;
 import org.junit.jupiter.api.Test;
@@ -75,7 +74,7 @@ class PersonControllerTest extends ControllerTest {
                 .content(content);
 
         var result = perform(request, status().isOk());
-        var personResponse = convertToModel(result, new TypeReference<PersonResponse>() {});
+        var personResponse = convertToModel(result, new TypeReference<PersonDto>() {});
 
         verify(personService).getById(requestById.getId());
         assertEquals(person.getId(), personResponse.getId());
@@ -85,8 +84,8 @@ class PersonControllerTest extends ControllerTest {
         assertEquals(person.getBirthday(), personResponse.getBirthday());
     }
 
-    private PersonRequest getPersonRequest() {
-        var body = new PersonRequest();
+    private PersonDto getPersonRequest() {
+        var body = new PersonDto();
         body.setName("name");
         body.setPatronymic("patronymic");
         body.setSurname("surname");

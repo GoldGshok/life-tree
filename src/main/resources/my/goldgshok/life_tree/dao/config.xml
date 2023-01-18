@@ -12,6 +12,7 @@
 
     <typeHandlers>
         <typeHandler handler="my.goldgshok.life_tree.dao.handler.UuidTypeHandler" javaType="java.util.UUID"/>
+        <typeHandler handler="my.goldgshok.life_tree.dao.handler.GenderTypeHandler" javaType="my.goldgshok.life_tree.model.Gender"/>
     </typeHandlers>
 
     <mappers>

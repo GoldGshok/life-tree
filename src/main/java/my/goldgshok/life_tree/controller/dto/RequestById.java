@@ -1,4 +1,4 @@
-package my.goldgshok.life_tree.controller.request;
+package my.goldgshok.life_tree.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

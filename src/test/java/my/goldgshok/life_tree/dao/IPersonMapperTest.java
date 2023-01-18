@@ -1,6 +1,7 @@
 package my.goldgshok.life_tree.dao;
 
 import my.goldgshok.life_tree.SpringBootBaseTest;
+import my.goldgshok.life_tree.model.Gender;
 import my.goldgshok.life_tree.model.Person;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ class IPersonMapperTest extends SpringBootBaseTest {
         person.setDeathday(LocalDate.now());
         person.setFatherId(UUID.randomUUID());
         person.setMotherId(UUID.randomUUID());
+        person.setGender(Gender.FEMALE);
 
         assertDoesNotThrow(() -> personMapper.upsert(person));
     }
@@ -55,6 +57,7 @@ class IPersonMapperTest extends SpringBootBaseTest {
         person.setPatronymic("Patronymic");
         person.setSurname("Surname");
         person.setBirthday(LocalDate.now());
+        person.setGender(Gender.MALE);
         return person;
     }
 }
