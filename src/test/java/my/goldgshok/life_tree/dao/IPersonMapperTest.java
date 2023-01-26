@@ -1,13 +1,19 @@
 package my.goldgshok.life_tree.dao;
 
 import my.goldgshok.life_tree.SpringBootBaseTest;
+import my.goldgshok.life_tree.controller.dto.JournalFilterDto;
 import my.goldgshok.life_tree.model.Gender;
 import my.goldgshok.life_tree.model.Person;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +43,7 @@ class IPersonMapperTest extends SpringBootBaseTest {
     }
 
     @Test
-    void getById_getValidModel() {
+    void getById_getValidModel_success() {
         var person = getBaseModel();
         person.setAbout("I like world!");
         person.setDeathday(LocalDate.now());
@@ -50,6 +56,17 @@ class IPersonMapperTest extends SpringBootBaseTest {
         assertEquals(person, actualPerson);
     }
 
+    @ParameterizedTest
+    @MethodSource("getFilterData")
+    @Sql(scripts = "/sql/journal.sql")
+    void getById_getJournal_success(JournalFilterDto filterDto, int countRows) {
+        filterDto.setLimit(10);
+        filterDto.setOffset(0);
+        var journal = personMapper.getJournal(filterDto);
+
+        assertEquals(countRows, journal.size());
+    }
+
     private Person getBaseModel() {
         var person = new Person();
         person.setId(UUID.randomUUID());
@@ -59,5 +76,31 @@ class IPersonMapperTest extends SpringBootBaseTest {
         person.setBirthday(LocalDate.now());
         person.setGender(Gender.MALE);
         return person;
+    }
+
+    private static Stream<Arguments> getFilterData() {
+        return Stream.of(Arguments.of(
+                JournalFilterDto.builder()
+                        .name("Пет")
+                        .build(), 1),
+                Arguments.of(JournalFilterDto.builder()
+                        .patronymic("Анатол")
+                        .build(), 1),
+                Arguments.of(JournalFilterDto.builder()
+                        .surname("Петр")
+                        .build(), 2),
+                Arguments.of(JournalFilterDto.builder()
+                        .lastSurname("Иван")
+                        .build(), 1),
+                Arguments.of(JournalFilterDto.builder()
+                        .birthday(LocalDate.of(2002, 1, 1))
+                        .build(), 1),
+                Arguments.of(JournalFilterDto.builder()
+                        .deathday(LocalDate.of(2000, 1, 1))
+                        .build(), 1),
+                Arguments.of(JournalFilterDto.builder()
+                        .genderId(Gender.MALE.getId())
+                        .build(), 2)
+        );
     }
 }

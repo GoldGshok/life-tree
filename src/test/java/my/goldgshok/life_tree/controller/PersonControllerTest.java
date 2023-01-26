@@ -2,6 +2,7 @@ package my.goldgshok.life_tree.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import my.goldgshok.life_tree.ControllerTest;
+import my.goldgshok.life_tree.controller.dto.JournalFilterDto;
 import my.goldgshok.life_tree.controller.dto.PersonDto;
 import my.goldgshok.life_tree.controller.dto.RequestById;
 import my.goldgshok.life_tree.model.Person;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +30,7 @@ class PersonControllerTest extends ControllerTest {
     private PersonService personService;
 
     @Test
-    void create() {
+    void create_baseCase_success() {
         var personRequest = getPersonRequest();
         var content = convertToJson(personRequest);
 
@@ -42,7 +44,7 @@ class PersonControllerTest extends ControllerTest {
     }
 
     @Test
-    void update() {
+    void update_baseCase_success() {
         var personRequest = getPersonRequest();
         var content = convertToJson(personRequest);
 
@@ -56,7 +58,7 @@ class PersonControllerTest extends ControllerTest {
     }
 
     @Test
-    void getById() {
+    void getById_baseCase_success() {
         var requestById = new RequestById(UUID.randomUUID());
         var content = convertToJson(requestById);
         var person = Person.builder()
@@ -82,6 +84,39 @@ class PersonControllerTest extends ControllerTest {
         assertEquals(person.getPatronymic(), personResponse.getPatronymic());
         assertEquals(person.getSurname(), personResponse.getSurname());
         assertEquals(person.getBirthday(), personResponse.getBirthday());
+    }
+
+    @Test
+    void getJournal_baseCase_success() {
+        var filter = JournalFilterDto.builder()
+                .limit(10)
+                .offset(0)
+                .build();
+        var content = convertToJson(filter);
+        var person = Person.builder()
+                .id(UUID.randomUUID())
+                .name("Name")
+                .patronymic("Patronymic")
+                .surname("Surname")
+                .birthday(LocalDate.now())
+                .build();
+
+        when(personService.getJournal(filter)).thenReturn(List.of(person));
+
+        var request = MockMvcRequestBuilders.post("/web/person/get-journal")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(content);
+
+        var result = perform(request, status().isOk());
+        var personResponse = convertToModel(result, new TypeReference<List<PersonDto>>() {});
+
+        verify(personService).getJournal(filter);
+        var personDto = personResponse.get(0);
+        assertEquals(person.getId(), personDto.getId());
+        assertEquals(person.getName(), personDto.getName());
+        assertEquals(person.getPatronymic(), personDto.getPatronymic());
+        assertEquals(person.getSurname(), personDto.getSurname());
+        assertEquals(person.getBirthday(), personDto.getBirthday());
     }
 
     private PersonDto getPersonRequest() {

@@ -1,16 +1,20 @@
 package my.goldgshok.life_tree.service;
 
+import my.goldgshok.life_tree.controller.dto.JournalFilterDto;
 import my.goldgshok.life_tree.dao.IPersonMapper;
 import my.goldgshok.life_tree.model.Person;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -50,5 +54,15 @@ class PersonServiceTest {
         var actualPerson = personService.getById(person.getId());
 
         assertEquals(person, actualPerson);
+    }
+
+    @Test
+    void getJournal() {
+        when(personMapper.getJournal(any())).thenReturn(Collections.emptyList());
+
+        var journal = personService.getJournal(new JournalFilterDto());
+
+        Assertions.assertTrue(journal.isEmpty());
+        verify(personMapper).getJournal(any());
     }
 }

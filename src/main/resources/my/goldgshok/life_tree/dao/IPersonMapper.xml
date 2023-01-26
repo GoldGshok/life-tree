@@ -40,4 +40,62 @@
         WHERE id = #{personId}
     </select>
 
+    <select id="getJournal" resultType="my.goldgshok.life_tree.model.Person">
+        SELECT
+            id,
+            name,
+            patronymic,
+            surname,
+            last_surname,
+            birthday,
+            deathday,
+            gender,
+            father_id,
+            mother_id,
+            about
+        FROM person
+        <where>
+            TRUE
+            <if test="filter.name != null">
+                AND name like #{filter.name} || '%'
+            </if>
+            <if test="filter.patronymic != null">
+                AND patronymic like #{filter.patronymic} || '%'
+            </if>
+            <if test="filter.surname != null">
+                AND surname like #{filter.surname} || '%'
+            </if>
+            <if test="filter.lastSurname != null">
+                AND last_surname like #{filter.lastSurname} || '%'
+            </if>
+            <if test="filter.birthday != null">
+                AND birthday = #{filter.birthday}
+            </if>
+            <if test="filter.deathday != null">
+                AND deathday = #{filter.deathday}
+            </if>
+            <if test="filter.genderId != null">
+                AND gender = #{filter.genderId}
+            </if>
+        </where>
+        <include refid="limitAndOffset"/>
+    </select>
+
+    <sql id="limitAndOffset">
+        <include refid="limit"/>
+        <include refid="offset"/>
+    </sql>
+
+    <sql id="limit">
+        <if test="filter.limit != null">
+            LIMIT #{filter.limit}
+        </if>
+    </sql>
+
+    <sql id="offset">
+        <if test="filter.offset != null">
+            OFFSET #{filter.offset}
+        </if>
+    </sql>
+
 </mapper>

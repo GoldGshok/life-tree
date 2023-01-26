@@ -6,18 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonDto {
-
-    @Schema(description = "ID человека")
-    private UUID id;
+public class JournalFilterDto {
 
     @Schema(description = "Имя")
     private String name;
@@ -31,7 +26,6 @@ public class PersonDto {
     @Schema(description = "Предыдущая фамилия (если есть)")
     private String lastSurname;
 
-    @Schema(description = "День рождения")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 
@@ -42,13 +36,9 @@ public class PersonDto {
     @Schema(description = "Пол человека (муж/жен)")
     private Integer genderId;
 
-    @Schema(description = "ID мамы")
-    private UUID motherId;
+    @Schema(description = "Пол человека (муж/жен)")
+    private Integer limit;
 
-    @Schema(description = "ID папы")
-    private UUID fatherId;
-
-    @Schema(description = "О человеке")
-    private String about;
-
+    @Schema(description = "Смещение выборки")
+    private Integer offset;
 }
