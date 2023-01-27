@@ -59,12 +59,24 @@ class IPersonMapperTest extends SpringBootBaseTest {
     @ParameterizedTest
     @MethodSource("getFilterData")
     @Sql(scripts = "/sql/journal.sql")
-    void getById_getJournal_success(JournalFilterDto filterDto, int countRows) {
+    void getJournal_baseCases_success(JournalFilterDto filterDto, int countRows) {
         filterDto.setLimit(10);
         filterDto.setOffset(0);
         var journal = personMapper.getJournal(filterDto);
 
         assertEquals(countRows, journal.size());
+    }
+
+    @Test
+    @Sql(scripts = "/sql/journal.sql")
+    void getMaxAvailableRows_baseCase_success() {
+        var filterDto = JournalFilterDto.builder()
+                .limit(10)
+                .offset(0)
+                .build();
+        var count = personMapper.getMaxAvailableRows(filterDto);
+
+        assertEquals(3, count);
     }
 
     private Person getBaseModel() {

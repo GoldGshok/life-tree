@@ -54,6 +54,18 @@
             mother_id,
             about
         FROM person
+        <include refid="where"/>
+        <include refid="limitAndOffset"/>
+    </select>
+
+    <select id="getMaxAvailableRows" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM person
+        <include refid="where"/>
+    </select>
+
+    <sql id="where">
         <where>
             TRUE
             <if test="filter.name != null">
@@ -78,8 +90,7 @@
                 AND gender = #{filter.genderId}
             </if>
         </where>
-        <include refid="limitAndOffset"/>
-    </select>
+    </sql>
 
     <sql id="limitAndOffset">
         <include refid="limit"/>

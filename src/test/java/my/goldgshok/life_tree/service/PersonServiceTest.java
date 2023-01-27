@@ -27,7 +27,7 @@ class PersonServiceTest {
     private PersonService personService;
 
     @Test
-    void create() {
+    void create_baseCase_success() {
         var person = new Person();
 
         personService.create(person);
@@ -37,7 +37,7 @@ class PersonServiceTest {
     }
 
     @Test
-    void update() {
+    void update_baseCase_success() {
         var person = new Person();
 
         personService.update(person);
@@ -46,7 +46,7 @@ class PersonServiceTest {
     }
 
     @Test
-    void getById() {
+    void getById_baseCase_success() {
         var person = new Person();
         person.setId(UUID.randomUUID());
         when(personMapper.getById(person.getId())).thenReturn(person);
@@ -57,12 +57,22 @@ class PersonServiceTest {
     }
 
     @Test
-    void getJournal() {
+    void getJournal_baseCase_success() {
         when(personMapper.getJournal(any())).thenReturn(Collections.emptyList());
 
         var journal = personService.getJournal(new JournalFilterDto());
 
         Assertions.assertTrue(journal.isEmpty());
         verify(personMapper).getJournal(any());
+    }
+
+    @Test
+    void getMaxAvailableRows_baseCase_success() {
+        when(personMapper.getMaxAvailableRows(any())).thenReturn(1);
+
+        var count = personService.getMaxAvailableRows(new JournalFilterDto());
+
+        Assertions.assertEquals(1, count);
+        verify(personMapper).getMaxAvailableRows(any());
     }
 }

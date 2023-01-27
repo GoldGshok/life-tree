@@ -31,4 +31,8 @@ public class PersonService {
     public List<Person> getJournal(JournalFilterDto filterDto) {
         return personMapper.getJournal(filterDto);
     }
+
+    public Integer getMaxAvailableRows(JournalFilterDto request) {
+        return personMapper.getMaxAvailableRows(request);
+    }
 }

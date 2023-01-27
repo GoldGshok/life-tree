@@ -3,8 +3,10 @@ package my.goldgshok.life_tree.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import my.goldgshok.life_tree.ControllerTest;
 import my.goldgshok.life_tree.controller.dto.JournalFilterDto;
+import my.goldgshok.life_tree.controller.dto.JournalResponse;
 import my.goldgshok.life_tree.controller.dto.PersonDto;
 import my.goldgshok.life_tree.controller.dto.RequestById;
+import my.goldgshok.life_tree.model.Gender;
 import my.goldgshok.life_tree.model.Person;
 import my.goldgshok.life_tree.service.PersonService;
 import org.junit.jupiter.api.Test;
@@ -46,6 +48,7 @@ class PersonControllerTest extends ControllerTest {
     @Test
     void update_baseCase_success() {
         var personRequest = getPersonRequest();
+        personRequest.setId(UUID.randomUUID());
         var content = convertToJson(personRequest);
 
         var request = MockMvcRequestBuilders.post("/web/person/update")
@@ -67,6 +70,7 @@ class PersonControllerTest extends ControllerTest {
                 .patronymic("Patronymic")
                 .surname("Surname")
                 .birthday(LocalDate.now())
+                .gender(Gender.MALE)
                 .build();
 
         when(personService.getById(requestById.getId())).thenReturn(person);
@@ -99,19 +103,23 @@ class PersonControllerTest extends ControllerTest {
                 .patronymic("Patronymic")
                 .surname("Surname")
                 .birthday(LocalDate.now())
+                .gender(Gender.MALE)
                 .build();
 
         when(personService.getJournal(filter)).thenReturn(List.of(person));
+        when(personService.getMaxAvailableRows(filter)).thenReturn(1);
 
         var request = MockMvcRequestBuilders.post("/web/person/get-journal")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(content);
 
         var result = perform(request, status().isOk());
-        var personResponse = convertToModel(result, new TypeReference<List<PersonDto>>() {});
+        var journalResponse = convertToModel(result, new TypeReference<JournalResponse<PersonDto>>() {});
 
         verify(personService).getJournal(filter);
-        var personDto = personResponse.get(0);
+        assertEquals(1, journalResponse.getFoundRows());
+        assertEquals(1, journalResponse.getMaxAvailableRows());
+        var personDto = journalResponse.getItems().get(0);
         assertEquals(person.getId(), personDto.getId());
         assertEquals(person.getName(), personDto.getName());
         assertEquals(person.getPatronymic(), personDto.getPatronymic());
@@ -125,6 +133,7 @@ class PersonControllerTest extends ControllerTest {
         body.setPatronymic("patronymic");
         body.setSurname("surname");
         body.setBirthday(LocalDate.now());
+        body.setGenderId(1);
         return body;
     }
 }
