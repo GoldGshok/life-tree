@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "Запрос для отображения журнала")
 public class JournalFilterDto {
 
     @Schema(description = "Имя")

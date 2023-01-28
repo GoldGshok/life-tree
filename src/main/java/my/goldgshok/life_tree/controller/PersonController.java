@@ -8,6 +8,8 @@ import my.goldgshok.life_tree.controller.dto.RequestById;
 import my.goldgshok.life_tree.controller.validation.RequestValidator;
 import my.goldgshok.life_tree.converter.PersonConverter;
 import my.goldgshok.life_tree.service.PersonService;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("web/person")
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping(value = "web/person", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PersonController {
 
     private final PersonService personService;
@@ -42,7 +45,7 @@ public class PersonController {
         return PersonConverter.convert(person);
     }
 
-    @PostMapping(value = "get-journal")
+    @PostMapping(value = "get-journal", produces = MediaType.APPLICATION_JSON_VALUE)
     public JournalResponse<PersonDto> getJournal(@RequestBody JournalFilterDto request) {
         RequestValidator.validate(request);
         var persons = personService.getJournal(request);
