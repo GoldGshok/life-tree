@@ -45,8 +45,14 @@ public class PersonDto {
     @Schema(description = "ID мамы")
     private UUID motherId;
 
+    @Schema(description = "ФИО мамы")
+    private String motherFullName;
+
     @Schema(description = "ID папы")
     private UUID fatherId;
+
+    @Schema(description = "ФИО папы")
+    private String fatherFullName;
 
     @Schema(description = "О человеке")
     private String about;
