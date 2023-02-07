@@ -25,19 +25,23 @@
 
     <select id="getById" resultType="my.goldgshok.life_tree.model.Person">
         SELECT
-            id,
-            name,
-            patronymic,
-            surname,
-            last_surname,
-            birthday,
-            deathday,
-            gender,
-            father_id,
-            mother_id,
-            about
-        FROM person
-        WHERE id = #{personId}
+            p.id,
+            p.name,
+            p.patronymic,
+            p.surname,
+            p.last_surname,
+            p.birthday,
+            p.deathday,
+            p.gender,
+            p.father_id,
+            father.surname || ' ' || father.name || ' ' || father.patronymic AS fatherName,
+            p.mother_id,
+            mother.surname || ' ' || mother.name || ' ' || mother.patronymic AS motherName,
+            p.about
+        FROM person p
+        LEFT JOIN person father ON father.id = p.father_id
+        LEFT JOIN person mother ON mother.id = p.mother_id
+        WHERE p.id = #{personId}
     </select>
 
     <select id="getJournal" resultType="my.goldgshok.life_tree.model.Person">
@@ -51,9 +55,9 @@
             p.deathday,
             p.gender,
             p.father_id,
-            father.surname || father.name || father.patronymic AS fatherName,
+            father.surname || ' ' || father.name || ' ' || father.patronymic AS fatherName,
             p.mother_id,
-            mother.surname || mother.name || mother.patronymic AS motherName,
+            mother.surname || ' ' || mother.name || ' ' || mother.patronymic AS motherName,
             p.about
         FROM person p
         LEFT JOIN person father ON father.id = p.father_id

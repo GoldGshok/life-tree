@@ -1,15 +1,15 @@
 package my.goldgshok.life_tree.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Person {
@@ -23,7 +23,9 @@ public class Person {
     private LocalDate deathday;
     private Gender gender;
     private UUID motherId;
+    private String motherFullName;
     private UUID fatherId;
+    private String fatherFullName;
     private String about;
 
 }

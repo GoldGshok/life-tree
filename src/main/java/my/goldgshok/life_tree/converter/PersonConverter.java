@@ -35,8 +35,11 @@ public class PersonConverter {
         personDto.setDeathday(person.getDeathday());
         personDto.setGenderId(person.getGender().getId());
         personDto.setFatherId(person.getFatherId());
+        personDto.setFatherFullName(person.getFatherFullName());
         personDto.setMotherId(person.getMotherId());
+        personDto.setMotherFullName(person.getMotherFullName());
         personDto.setAbout(person.getAbout());
         return personDto;
     }
+
 }
