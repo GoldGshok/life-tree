@@ -69,7 +69,7 @@
     <select id="getMaxAvailableRows" resultType="java.lang.Integer">
         SELECT
             COUNT(*)
-        FROM person
+        FROM person p
         <include refid="where"/>
     </select>
 
@@ -77,25 +77,25 @@
         <where>
             TRUE
             <if test="filter.name != null">
-                AND name like #{filter.name} || '%'
+                AND p.name like #{filter.name} || '%'
             </if>
             <if test="filter.patronymic != null">
-                AND patronymic like #{filter.patronymic} || '%'
+                AND p.patronymic like #{filter.patronymic} || '%'
             </if>
             <if test="filter.surname != null">
-                AND surname like #{filter.surname} || '%'
+                AND p.surname like #{filter.surname} || '%'
             </if>
             <if test="filter.lastSurname != null">
-                AND last_surname like #{filter.lastSurname} || '%'
+                AND p.last_surname like #{filter.lastSurname} || '%'
             </if>
             <if test="filter.birthday != null">
-                AND birthday = #{filter.birthday}
+                AND p.birthday = #{filter.birthday}
             </if>
             <if test="filter.deathday != null">
-                AND deathday = #{filter.deathday}
+                AND p.deathday = #{filter.deathday}
             </if>
             <if test="filter.genderId != null">
-                AND gender = #{filter.genderId}
+                AND p.gender = #{filter.genderId}
             </if>
         </where>
     </sql>

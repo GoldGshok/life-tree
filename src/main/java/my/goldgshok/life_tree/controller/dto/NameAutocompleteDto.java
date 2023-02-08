@@ -12,4 +12,6 @@ public class NameAutocompleteDto {
     private String patronymic;
     @Schema(description = "Фамилия")
     private String surname;
+    @Schema(description = "ID пола человека")
+    private Integer genderId;
 }

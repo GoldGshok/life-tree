@@ -13,7 +13,7 @@ public class AutocompleteService {
 
     private final IAutocompleteMapper autocompleteMapper;
 
-    public List<Person> getPersonsByFullName(String name, String patronymic, String surname) {
-        return autocompleteMapper.getPersonsByFullName(name, patronymic, surname);
+    public List<Person> getPersonsByFullName(String name, String patronymic, String surname, Integer genderId) {
+        return autocompleteMapper.getPersonsByFullName(name, patronymic, surname, genderId);
     }
 }

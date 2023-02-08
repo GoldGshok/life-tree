@@ -11,5 +11,6 @@ public interface IAutocompleteMapper {
 
     List<Person> getPersonsByFullName(@Param("name") String fullName,
             @Param("patronymic") String patronymic,
-            @Param("surname") String surname);
+            @Param("surname") String surname,
+            @Param("genderId") Integer genderId);
 }
