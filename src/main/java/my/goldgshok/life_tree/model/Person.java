@@ -23,9 +23,9 @@ public class Person {
     private LocalDate deathday;
     private Gender gender;
     private UUID motherId;
-    private String motherFullName;
+    private String motherName;
     private UUID fatherId;
-    private String fatherFullName;
+    private String fatherName;
     private String about;
 
 }
