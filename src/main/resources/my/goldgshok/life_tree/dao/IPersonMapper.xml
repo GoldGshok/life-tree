@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="my.goldgshok.life_tree.dao.IPersonMapper">
+
+    <insert id="upsert">
+        INSERT INTO person (id, name, patronymic, surname, last_surname, birthday, deathday, gender, father_id,
+            mother_id, about)
+        VALUES (#{id}, #{name}, #{patronymic}, #{surname}, #{lastSurname}, #{birthday}, #{deathday}, #{gender},
+            #{fatherId}, #{motherId}, #{about})
+        ON CONFLICT (id) DO UPDATE SET
+            name = EXCLUDED.name,
+            patronymic = EXCLUDED.patronymic,
+            surname = EXCLUDED.surname,
+            last_surname = EXCLUDED.last_surname,
+            birthday = EXCLUDED.birthday,
+            deathday = EXCLUDED.deathday,
+            gender = EXCLUDED.gender,
+            father_id = EXCLUDED.father_id,
+            mother_id = EXCLUDED.mother_id,
+            about = EXCLUDED.about,
+            update_timestamp = NOW()
+    </insert>
+
+    <select id="getById" resultType="my.goldgshok.life_tree.model.Person">
+        SELECT
+            p.id,
+            p.name,
+            p.patronymic,
+            p.surname,
+            p.last_surname,
+            p.birthday,
+            p.deathday,
+            p.gender,
+            p.father_id,
+            father.surname || ' ' || father.name || ' ' || father.patronymic AS fatherName,
+            p.mother_id,
+            mother.surname || ' ' || mother.name || ' ' || mother.patronymic AS motherName,
+            p.about
+        FROM person p
+        LEFT JOIN person father ON father.id = p.father_id
+        LEFT JOIN person mother ON mother.id = p.mother_id
+        WHERE p.id = #{personId}
+    </select>
+
+    <select id="getJournal" resultType="my.goldgshok.life_tree.model.Person">
+        SELECT
+            p.id,
+            p.name,
+            p.patronymic,
+            p.surname,
+            p.last_surname,
+            p.birthday,
+            p.deathday,
+            p.gender,
+            p.father_id,
+            father.surname || ' ' || father.name || ' ' || father.patronymic AS fatherName,
+            p.mother_id,
+            mother.surname || ' ' || mother.name || ' ' || mother.patronymic AS motherName,
+            p.about
+        FROM person p
+        LEFT JOIN person father ON father.id = p.father_id
+        LEFT JOIN person mother ON mother.id = p.mother_id
+        <include refid="where"/>
+        <include refid="limitAndOffset"/>
+    </select>
+
+    <select id="getMaxAvailableRows" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM person p
+        <include refid="where"/>
+    </select>
+
+    <sql id="where">
+        <where>
+            TRUE
+            <if test="filter.name != null">
+                AND p.name like #{filter.name} || '%'
+            </if>
+            <if test="filter.patronymic != null">
+                AND p.patronymic like #{filter.patronymic} || '%'
+            </if>
+            <if test="filter.surname != null">
+                AND p.surname like #{filter.surname} || '%'
+            </if>
+            <if test="filter.lastSurname != null">
+                AND p.last_surname like #{filter.lastSurname} || '%'
+            </if>
+            <if test="filter.birthday != null">
+                AND p.birthday = #{filter.birthday}
+            </if>
+            <if test="filter.deathday != null">
+                AND p.deathday = #{filter.deathday}
+            </if>
+            <if test="filter.genderId != null">
+                AND p.gender = #{filter.genderId}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="limitAndOffset">
+        <include refid="limit"/>
+        <include refid="offset"/>
+    </sql>
+
+    <sql id="limit">
+        <if test="filter.limit != null">
+            LIMIT #{filter.limit}
+        </if>
+    </sql>
+
+    <sql id="offset">
+        <if test="filter.offset != null">
+            OFFSET #{filter.offset}
+        </if>
+    </sql>
+
+</mapper>

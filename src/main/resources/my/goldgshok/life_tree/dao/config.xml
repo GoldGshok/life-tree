@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="logImpl" value="SLF4J"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="localCacheScope" value="STATEMENT"/>
+        <setting name="cacheEnabled" value="false"/>
+    </settings>
+
+    <typeHandlers>
+        <typeHandler handler="my.goldgshok.life_tree.dao.handler.UuidTypeHandler" javaType="java.util.UUID"/>
+        <typeHandler handler="my.goldgshok.life_tree.dao.handler.GenderTypeHandler" javaType="my.goldgshok.life_tree.model.Gender"/>
+    </typeHandlers>
+
+    <mappers>
+        <package name="my.goldgshok.life_tree.dao"/>
+    </mappers>
+
+</configuration>

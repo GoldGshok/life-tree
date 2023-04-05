@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="my.goldgshok.life_tree.dao.IAutocompleteMapper">
+
+    <select id="getPersonsByFullName" resultType="my.goldgshok.life_tree.model.Person">
+        SELECT
+            p.id,
+            p.name,
+            p.patronymic,
+            p.surname,
+            p.gender
+        FROM person p
+        <include refid="where"/>
+        LIMIT 5
+    </select>
+
+    <sql id="where">
+        <where>
+            AND p.gender = #{genderId}
+            <if test="name != null">
+                AND p.name like #{name} || '%'
+            </if>
+            <if test="patronymic != null">
+                AND p.patronymic like #{patronymic} || '%'
+            </if>
+            <if test="surname != null">
+                AND p.surname like #{surname} || '%'
+            </if>
+        </where>
+    </sql>
+</mapper>
