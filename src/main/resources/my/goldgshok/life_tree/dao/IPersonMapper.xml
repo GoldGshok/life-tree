@@ -63,6 +63,7 @@
         LEFT JOIN person father ON father.id = p.father_id
         LEFT JOIN person mother ON mother.id = p.mother_id
         <include refid="where"/>
+        ORDER BY p.update_timestamp DESC
         <include refid="limitAndOffset"/>
     </select>
 
