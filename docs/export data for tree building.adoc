@@ -14,8 +14,12 @@ SELECT
     patronymic AS secn,
     COALESCE(father_id::text, '') AS f,
     COALESCE(mother_id::text, '') AS m,
-    birthday AS bday,
-    COALESCE(deathday::text, '') AS dday,
+    CASE WHEN birthday = '1900-01-01' THEN
+        '?'
+    ELSE
+        birthday::text
+    END AS bday,
+    COALESCE(deathday::text, '?') AS dday,
     surname || ' ' || name || ' ' || person.patronymic AS n
 FROM person
 ```
