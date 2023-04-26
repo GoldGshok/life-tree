@@ -18,4 +18,6 @@ public interface IPersonMapper {
     List<Person> getJournal(@Param("filter") JournalFilterDto filter);
 
     Integer getMaxAvailableRows(@Param("filter") JournalFilterDto filter);
+
+    List<Person> getAllPerson();
 }
