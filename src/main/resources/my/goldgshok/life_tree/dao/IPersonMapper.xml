@@ -63,6 +63,7 @@
         LEFT JOIN person father ON father.id = p.father_id
         LEFT JOIN person mother ON mother.id = p.mother_id
         <include refid="where"/>
+        ORDER BY p.update_timestamp DESC
         <include refid="limitAndOffset"/>
     </select>
 
@@ -71,6 +72,22 @@
             COUNT(*)
         FROM person p
         <include refid="where"/>
+    </select>
+
+    <select id="getAllPerson" resultType="my.goldgshok.life_tree.model.Person">
+        SELECT
+            p.id,
+            p.name,
+            p.patronymic,
+            p.surname,
+            p.last_surname,
+            p.birthday,
+            p.deathday,
+            p.gender,
+            p.father_id,
+            p.mother_id,
+            p.about
+        FROM person p
     </select>
 
     <sql id="where">

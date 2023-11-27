@@ -15,10 +15,10 @@ class LocaleProviderTest {
     @ParameterizedTest
     @MethodSource("getLocales")
     void getLangTest(String expectedLang, String locale, String country) {
-        LocaleContextHolder.setLocale(Locale.of(locale, country));
+        LocaleContextHolder.setLocale(new Locale(locale, country));
         String actualLang = LocaleProvider.getLang();
         Assertions.assertEquals(expectedLang, actualLang);
-        LocaleContextHolder.setLocale(Locale.of("ru", "RU"));
+        LocaleContextHolder.setLocale(new Locale("ru", "RU"));
     }
 
     private static Stream<Arguments> getLocales() {

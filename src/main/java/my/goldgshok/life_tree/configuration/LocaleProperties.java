@@ -20,5 +20,5 @@ public class LocaleProperties {
     /**
      * Локализация по умолчанию. Используется, если заголовок X-User-Lang содержит неподдерживаемую локализацию.
      */
-    private Locale defaultLocale = Locale.of("ru", "RU");
+    private Locale defaultLocale = new Locale("ru", "RU");
 }
