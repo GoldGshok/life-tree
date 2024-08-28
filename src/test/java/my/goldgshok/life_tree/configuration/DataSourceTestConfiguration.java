@@ -14,7 +14,7 @@ public class DataSourceTestConfiguration {
 
     @Bean(destroyMethod = "stop")
     public PostgreSQLContainer<?> postgreSqlContainer() {
-        var postgreSQLContainer = new PostgreSQLContainer<>("postgres:15.1-alpine")
+        var postgreSQLContainer = new PostgreSQLContainer<>("postgres:15.7-alpine")
                 .withDatabaseName("life_tree")
                 .withExposedPorts(5432)
                 .withUsername("user")
