@@ -16,7 +16,7 @@
         "org.mybatis.spring.boot:*",
         "org.springdoc:*"
       ],
-      "groupName": "Spring Boot ecosystem"
+      "groupName": "Spring Boot"
     }
   ]
 }
