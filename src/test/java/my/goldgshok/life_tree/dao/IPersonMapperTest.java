@@ -70,12 +70,14 @@ class IPersonMapperTest extends SpringBootBaseTest {
     @Test
     @Sql(scripts = "/sql/journal.sql")
     void getMaxAvailableRows_baseCase_success() {
+        // Given
         var filterDto = JournalFilterDto.builder()
                 .limit(10)
                 .offset(0)
                 .build();
+        // When
         var count = personMapper.getMaxAvailableRows(filterDto);
-
+        // Then
         assertEquals(3, count);
     }
 
