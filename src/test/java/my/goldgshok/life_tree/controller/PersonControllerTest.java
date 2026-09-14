@@ -10,9 +10,10 @@ import my.goldgshok.life_tree.model.Gender;
 import my.goldgshok.life_tree.model.Person;
 import my.goldgshok.life_tree.service.PersonService;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
@@ -28,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(PersonController.class)
 class PersonControllerTest extends ControllerTest {
 
-    @MockBean
+    @MockitoBean
     private PersonService personService;
 
     @Test
@@ -119,7 +120,7 @@ class PersonControllerTest extends ControllerTest {
         verify(personService).getJournal(filter);
         assertEquals(1, journalResponse.getFoundRows());
         assertEquals(1, journalResponse.getMaxAvailableRows());
-        var personDto = journalResponse.getItems().get(0);
+        var personDto = journalResponse.getItems().getFirst();
         assertEquals(person.getId(), personDto.getId());
         assertEquals(person.getName(), personDto.getName());
         assertEquals(person.getPatronymic(), personDto.getPatronymic());
