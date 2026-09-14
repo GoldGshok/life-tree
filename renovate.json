@@ -10,7 +10,13 @@
         "minor",
         "patch"
       ],
-      "enabled": true
+      "enabled": true,
+      "matchPackageNames": [
+        "org.springframework.boot:*",
+        "org.mybatis.spring.boot:*",
+        "org.springdoc:*"
+      ],
+      "groupName": "Spring Boot ecosystem"
     }
   ]
 }
